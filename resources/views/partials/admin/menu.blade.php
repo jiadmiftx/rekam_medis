@@ -78,7 +78,48 @@
                     </li>
                 @endif
 
-                <!--------------------- End User Managaement System----------------------------------->
+                <!--------------------- Start Managaement Data----------------------------------->
+                @if (
+                    \Auth::user()->type != 'super admin' &&
+                        (Gate::check('manage user') || Gate::check('manage role') || Gate::check('manage client')))
+                    <li
+                        class="dash-item dash-hasmenu {{ Request::segment(1) == 'icdx' || Request::segment(1) == 'dokter' || Request::segment(1) == 'poli'
+                            ? ' active dash-trigger'
+                            : '' }}">
+
+                        <a href="#!" class="dash-link "><span class="dash-micon"><i
+                                    class="ti ti-database"></i></span><span
+                                class="dash-mtext">{{ __('Data Management') }}</span><span class="dash-arrow"><i
+                                    data-feather="chevron-right"></i></span></a>
+                        <ul class="dash-submenu">
+                            @can('manage user')
+                                <li class="dash-item {{ Request::route()->getName() == 'icdx.index' ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{ route('icdx.index') }}">{{ __('ICDX') }}</a>
+                                </li>
+                            @endcan
+                            @can('manage user')
+                                <li
+                                    class="dash-item {{ Request::route()->getName() == 'dokter.index' || Request::route()->getName() == 'dokter.create' || Request::route()->getName() == 'dokter.edit' ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{ route('dokter.index') }}">{{ __('Dokter') }}</a>
+                                </li>
+                            @endcan
+                            @can('manage user')
+                                <li
+                                    class="dash-item {{ Request::route()->getName() == 'perawat.index' || Request::route()->getName() == 'perawat.create' || Request::route()->getName() == 'perawat.edit' ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{ route('perawat.index') }}">{{ __('Perawat') }}</a>
+                                </li>
+                            @endcan
+                            @can('manage user')
+                                <li
+                                    class="dash-item {{ Request::route()->getName() == 'obat.index' || Request::route()->getName() == 'obat.create' || Request::route()->getName() == 'obat.edit' ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{ route('obat.index') }}">{{ __('Obat') }}</a>
+                                </li>
+                            @endcan
+
+                        </ul>
+                    </li>
+                @endif
+                <!--------------------- End Data Managaement----------------------------------->
 
             </ul>
         @endif
