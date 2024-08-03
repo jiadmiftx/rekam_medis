@@ -77,6 +77,31 @@
                         </ul>
                     </li>
                 @endif
+                <!--------------------- Start Registrasi----------------------------------->
+                @if (
+                    \Auth::user()->type != 'super admin' &&
+                        (Gate::check('manage user') || Gate::check('manage role') || Gate::check('manage client')))
+                    <li
+                        class="dash-item dash-hasmenu {{ Request::segment(1) == 'icdx' || Request::segment(1) == 'dokter' || Request::segment(1) == 'poli'
+                            ? ' active dash-trigger'
+                            : '' }}">
+
+                        <a href="#!" class="dash-link "><span class="dash-micon"><i
+                                    class="ti ti-user"></i></span><span
+                                class="dash-mtext">{{ __('Register') }}</span><span class="dash-arrow"><i
+                                    data-feather="chevron-right"></i></span></a>
+                        <ul class="dash-submenu">
+                            @can('manage user')
+                                <li class="dash-item {{ Request::route()->getName() == 'pasien.index' ? ' active' : '' }}">
+                                    <a class="dash-link" href="{{ route('pasien.index') }}">{{ __('Pasien') }}</a>
+                                </li>
+                            @endcan
+
+
+                        </ul>
+                    </li>
+                @endif
+                <!--------------------- End Data Registrasi----------------------------------->
 
                 <!--------------------- Start Managaement Data----------------------------------->
                 @if (

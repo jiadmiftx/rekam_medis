@@ -10,11 +10,21 @@ use App\Http\Controllers\RekamMedisController;
 use App\Http\Controllers\DokterController;
 use App\Http\Controllers\PerawatController;
 use App\Http\Controllers\ObatController;
+use App\Http\Controllers\PasienController;
+use App\Http\Controllers\WilayahIndonesiaController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::group(['prefix' => 'regional'], function () {
+    Route::get('provinsi', [WilayahIndonesiaController::class, 'provinsi'])->name('regional.provinsi');
+    Route::get('kabupaten', [WilayahIndonesiaController::class, 'kabupatenKota'])->name('regional.kota');
+    Route::get('kecamatan', [WilayahIndonesiaController::class, 'kecamatan'])->name('regional.kecamatan');
+    Route::get('desa', [WilayahIndonesiaController::class, 'kelurahanDesa'])->name('regional.desa');
+    ;
+});
 
 Route::resource('users', UserController::class);
 Route::resource('roles', RoleController::class);
@@ -22,6 +32,7 @@ Route::resource('icdx', ICDXController::class);
 Route::resource('dokter', DokterController::class);
 Route::resource('perawat', PerawatController::class);
 Route::resource('obat', ObatController::class);
+Route::resource('pasien', PasienController::class);
 
 Route::any('user-reset-password/{id}', [UserController::class, 'userPassword'])->name('users.reset');
 

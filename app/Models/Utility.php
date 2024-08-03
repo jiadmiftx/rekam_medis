@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use App\Mail\CommonEmailTemplate;
-use App\Mail\TestMail;
-use Carbon\Carbon;
-use Carbon\CarbonPeriod;
+// use App\Mail\CommonEmailTemplate;
+// use App\Mail\TestMail;
+// use Carbon\Carbon;
+// use Carbon\CarbonPeriod;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -14,10 +14,51 @@ use Illuminate\Support\Facades\Storage;
 use Spatie\GoogleCalendar\Event as GoogleEvent;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
-use Twilio\Rest\Client;
+
+// use Twilio\Rest\Client;
 
 class Utility extends Model
 {
+    public static function generateCode($model, $field, $prefix, $length = 5)
+    {
+
+        $data = $model::orderBy('id', 'desc')->first();
+        if (in_array('Illuminate\Database\Eloquent\SoftDeletes', class_uses($model))) {
+            $data = $model::withTrashed()->orderBy('id', 'desc')->first();
+        }
+        if (!$data) {
+            $og_length = $length - 1;
+            $last_number = 1;
+        } else {
+            $code = substr($data->$field, strlen($prefix));
+            $act_last_no = ($code / 1) * 1;
+            $inc_last_no = $act_last_no + 1;
+            $last_number_length = strlen($inc_last_no);
+            $og_length = $length - $last_number_length;
+            $last_number = $inc_last_no;
+
+        }
+        $zeros = "";
+        for ($i = 0; $i < $og_length; $i++) {
+            $zeros .= "0";
+        }
+        return $prefix . $zeros . $last_number;
+    }
+
+    public static function getNomorAntrian($poli_id)
+    {
+
+        $maxValue = \App\Models\Register::where('poli_id', $poli_id)
+            ->whereDate('tgl_daftar', '>=', \Carbon\Carbon::today())
+            ->max('no_antrian');
+
+        if (!$maxValue) {
+            $number = 1;
+        } else {
+            $number = $maxValue + 1;
+        }
+        return $number;
+    }
     public static function settings()
     {
         $data = DB::table('settings');
@@ -3407,6 +3448,8 @@ class Utility extends Model
         $stocks->created_by = \Auth::user()->creatorId();
         $stocks->save();
     }
+
+
 
     public static function mode_layout()
     {

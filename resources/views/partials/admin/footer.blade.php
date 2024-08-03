@@ -19,6 +19,7 @@
 <!-- Warning Section Ends -->
 <!-- Required Js -->
 <script src="{{ asset('js/jquery.min.js') }}"></script>
+
 <script src="{{ asset('js/jquery.form.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/popper.min.js') }}"></script>
 <script src="{{ asset('assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
@@ -32,13 +33,17 @@
 
 <script src="{{ asset('assets/js/plugins/bootstrap-switch-button.min.js') }}"></script>
 
-<script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/sweetalert.min.js') }}"></script>
+
+{{--  <script src="{{ asset('assets/js/plugins/sweetalert2.all.min.js') }}"></script>  --}}
 <script src="{{ asset('assets/js/plugins/simple-datatables.js') }}"></script>
 
 <!-- Apex Chart -->
 <script src="{{ asset('assets/js/plugins/apexcharts.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/main.min.js') }}"></script>
-<script src="{{ asset('assets/js/plugins/choices.min.js') }}"></script>
+<script src="{{ asset('assets/js/plugins/main.min.js') }}">
+    < /scuiript> <
+    script src = "{{ asset('assets/js/plugins/choices.min.js') }}" >
+</script>
 <script src="{{ asset('assets/js/plugins/flatpickr.min.js') }}"></script>
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap4.min.js"></script>
@@ -52,6 +57,11 @@
     integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
+    $(".datepicker").datepicker({
+        dateFormat: 'dd-mm-yy',
+        date: 'dd-mm-yy',
+    });
+
     function ajaxRequest(url_, method_ = 'GET', data_) {
         $.ajaxSetup({
             headers: {
